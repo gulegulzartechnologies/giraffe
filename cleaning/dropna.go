@@ -1,3 +1,0 @@
-package cleaning
-
-func DropNA() {}

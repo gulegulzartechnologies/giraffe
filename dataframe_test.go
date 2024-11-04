@@ -1,11 +1,11 @@
-package types
+package giraffe
 
 import (
 	"testing"
 )
 
 func TestNew(t *testing.T) {
-	data := [][]string{
+	_ = [][]string{
 		{
 			"String1",
 			"String2",
@@ -16,7 +16,7 @@ func TestNew(t *testing.T) {
 		},
 	}
 
-	df := New(data)
+	df := New()
 
 	t.Log(df)
 }

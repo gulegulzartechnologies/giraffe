@@ -1,3 +1,3 @@
-# Gandas
+# Giraffe
 
-Pandas for go
+[Pandas](https://pandas.pydata.org/) for go
