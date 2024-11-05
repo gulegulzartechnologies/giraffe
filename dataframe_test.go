@@ -5,18 +5,14 @@ import (
 )
 
 func TestNew(t *testing.T) {
-	_ = [][]string{
-		{
-			"String1",
-			"String2",
-		},
-		{
-			"String3",
-			"String4",
-		},
+
+	testcsv := "./test-fixtures/iris.csv"
+
+	df, err := ReadFromCSVWithHeadings(testcsv)
+	if err != nil {
+		t.Error(err)
 	}
 
-	df := New()
+	t.Log(df.Columns)
 
-	t.Log(df)
 }
