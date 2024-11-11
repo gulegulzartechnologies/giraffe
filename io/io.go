@@ -1,15 +1,19 @@
-package giraffe
+package io
 
 import (
 	"encoding/csv"
 	"fmt"
 	"os"
+
+	"github.com/gulegulzartechnologies/giraffe"
 )
 
-func ReadFromCSVWithHeadings(path string) (*DataFrame[string], error) {
+func ReadFromCSVWithHeadings(path string) (*giraffe.Dataframe, error) {
 
-	df := &DataFrame[string]{
-		Columns: make(map[string]Series[string]),
+	df := &giraffe.Dataframe{
+		ColumnNames: []string{},
+		Columns:     make(map[string]giraffe.Series),
+		RowCount:    0,
 	}
 
 	file, err := os.Open(path)
@@ -24,12 +28,15 @@ func ReadFromCSVWithHeadings(path string) (*DataFrame[string], error) {
 		return nil, fmt.Errorf("failed to read CSV file: %v", err)
 	}
 
+	df.ColumnNames = append(df.ColumnNames, records[0]...)
+
 	for _, row := range records[1:] {
-		for i, col := range records[0] {
+		for i, col := range df.ColumnNames {
 			series := df.Columns[col]
 			series.Values = append(series.Values, row[i])
 			df.Columns[col] = series
 		}
+		df.RowCount = df.RowCount + 1
 	}
 
 	return df, nil

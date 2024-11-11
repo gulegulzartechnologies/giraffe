@@ -1,4 +1,4 @@
-package giraffe
+package io
 
 import (
 	"testing"
@@ -6,7 +6,7 @@ import (
 
 func TestNew(t *testing.T) {
 
-	testcsv := "./test-fixtures/iris.csv"
+	testcsv := "./test-fixtures/Groceries_dataset.csv"
 
 	df, err := ReadFromCSVWithHeadings(testcsv)
 	if err != nil {
