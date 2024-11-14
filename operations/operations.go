@@ -1,6 +1,7 @@
 package operations
 
 import (
+	"log/slog"
 	"strings"
 
 	"github.com/gulegulzartechnologies/giraffe"
@@ -42,4 +43,37 @@ func GroupBy(df *giraffe.Dataframe, columnsIndexes []int, targetIndex int) *gira
 
 	return gb
 
+}
+
+// HotEncode creates a one-hot encoded matrix.
+// Accepts a transactional dataframe and the count of unique items.
+// Returns a 2D int slice
+func HotEncode(df *giraffe.Dataframe, itemCount int) *giraffe.HotEncoded {
+
+	enc := &giraffe.HotEncoded{
+		Mapping:   make(map[string]int),
+		Matrix:    make(map[string][]int),
+		ItemCount: itemCount,
+	}
+
+	for hash, col := range df.Columns {
+
+		// initialize row encoding as 0
+		enc.Matrix[hash] = make([]int, enc.ItemCount)
+		for i := range enc.Matrix[hash] {
+			enc.Matrix[hash][i] = 0
+		}
+		slog.Info("[HOTENCODE]", "hash", hash, "column", col)
+
+		// update encoding for items
+		for _, val := range col.Values {
+			slog.Info("[HOTENCODE]", "val", val)
+			if _, ok := enc.Mapping[val]; !ok {
+				enc.Mapping[val] = len(enc.Mapping)
+			}
+			enc.Matrix[hash][enc.Mapping[val]] = 1
+		}
+	}
+
+	return enc
 }

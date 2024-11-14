@@ -10,3 +10,9 @@ type Series struct {
 	Name   string
 	Values []string
 }
+
+type HotEncoded struct {
+	Mapping   map[string]int
+	Matrix    map[string][]int
+	ItemCount int
+}
